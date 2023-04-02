@@ -1,9 +1,14 @@
-import React from 'react'
-
+import React from "react";
+import Wrapper from "../components/Wrapper";
+import { Container } from "react-bootstrap";
 const Error = () => {
   return (
-    <div>Error</div>
-  )
-}
+    <Wrapper>
+      <main className="py-3">
+        <Container>Error</Container>
+      </main>
+    </Wrapper>
+  );
+};
 
-export default Error
+export default Error;
