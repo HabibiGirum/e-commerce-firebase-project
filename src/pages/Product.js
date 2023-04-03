@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import {
   Container,
   Row,
@@ -10,12 +11,29 @@ import {
 } from "react-bootstrap";
 import Rating from "../components/Rating";
 import Wrapper from "../components/Wrapper";
-import products from "../products";
 import { Link, useParams } from "react-router-dom";
+import { getDoc, doc } from "firebase/firestore";
+import fireDB from "../FireConfig";
 
 const Product = () => {
-  const { id } = useParams();
-  const product = products.find((p) => p._id === id);
+  const params = useParams();
+  
+  const [data, setProduct] = useState();
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  async function getData() {
+   try {
+     const productTemp = await getDoc(doc(fireDB, "products", params.id));
+     setProduct(productTemp.data());
+   } catch (error) {
+    console.log(error);
+   }
+  }
+  
+  
 
   return (
     <Wrapper>
@@ -24,63 +42,77 @@ const Product = () => {
           <Link className="btn btn-dark my-3" to="/">
             Back to Home
           </Link>
-          <Row>
-            <Col md={6}>
-              <Image src={product.image} alt={product.name} fluid />
-            </Col>
-            <Col md={3}>
-              <ListGroup variant="flush">
-                <ListGroup.Item>
-                  <h3>{product.name}</h3>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Rating
-                    value={product.rating}
-                    text={`${product.numReviews} reviews`}
+          {data ? (
+            <Row>
+              
+                <Col md={6}>
+                  <Image
+                    src={data.image}
+                    alt={data.name}
+                    fluid
+                    className="hover"
                   />
-                </ListGroup.Item>
-                <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
-                <ListGroup.Item>
-                  Description: {product.description}
-                </ListGroup.Item>
-              </ListGroup>
-            </Col>
-            <Col md={3}>
-              <Card>
+                </Col>
+              
+              <Col md={3}>
                 <ListGroup variant="flush">
                   <ListGroup.Item>
-                    <Row>
-                      <Col>Price:</Col>
-                      <Col>
-                        <strong>${product.price}</strong>
-                      </Col>
-                    </Row>
+                    <h3>{data.name}</h3>
                   </ListGroup.Item>
                   <ListGroup.Item>
-                    <Row>
-                      <Col>Status:</Col>
-                      <Col>{product.countInStock>0?'In Stock':'Out Of Stock' }</Col>
-                    </Row>
+                    <Rating
+                      value={data.rating}
+                      text={`${data.numReviews} reviews`}
+                    />
                   </ListGroup.Item>
+                  <ListGroup.Item>Price: ${data.price}</ListGroup.Item>
                   <ListGroup.Item>
-                    <Button
-                      className="btn btn-dark  wide-button"
-                      type="button"
-                      disabled={product.countInStock === 0}
-                    >
-                      {product.countInStock > 0
-                        ? "Add to Cart"
-                        : "Out of Stock"}
-                    </Button>
+                    Description: {data.description}
                   </ListGroup.Item>
                 </ListGroup>
-              </Card>
-            </Col>
-          </Row>
+              </Col>
+              <Col md={3}>
+                <Card>
+                  <ListGroup variant="flush">
+                    <ListGroup.Item>
+                      <Row>
+                        <Col>Price:</Col>
+                        <Col>
+                          <strong>${data.price}</strong>
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Row>
+                        <Col>Status:</Col>
+                        <Col>
+                          {data.countInStock > 0 ? "In Stock" : "Out Of Stock"}
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <Button
+                        className="btn btn-dark  wide-button"
+                        type="button"
+                        disabled={data.countInStock === 0}
+                      >
+                        {data.countInStock > 0
+                          ? "Add to Cart"
+                          : "Out of Stock"}
+                      </Button>
+                    </ListGroup.Item>
+                  </ListGroup>
+                </Card>
+              </Col>
+            </Row>
+          ) : (
+            <p>Loading...</p>
+          )}
         </Container>
       </main>
     </Wrapper>
   );
+  
 };
 
 export default Product;

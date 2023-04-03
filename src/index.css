@@ -1,7 +1,12 @@
 main {
     min-height: 80vh;
 }
-.wide-button {
+/* .wide-button {
     width: 100%;
+  } */
+  .product-image:hover {
+    filter: brightness(80%);/* Change the opacity of the image */
+    cursor: pointer; /* Change the cursor to a pointer on hover */
   }
+  
   

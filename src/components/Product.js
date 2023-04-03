@@ -2,15 +2,20 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
+
 const Product = ({ product }) => {
   return (
     <Card className="mp-3 p-3 rounded">
-      <Link to={`/product/${product._id}`}>
-        <Card.Img src={product.image} variant="top" />
+      <Link to={`/product/${product.id}`}>
+        <Card.Img
+          src={product.image}
+          variant="top"
+          className="product-image"
+        />
       </Link>
 
       <Card.Body>
-        <Link to={`/product/${product._id}`}>
+        <Link to={`/product/${product.id}`}>
           <Card.Title as="div">
             <strong>{product.name}</strong>
           </Card.Title>
@@ -30,3 +35,4 @@ const Product = ({ product }) => {
 };
 
 export default Product;
+
