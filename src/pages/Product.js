@@ -8,33 +8,47 @@ import {
   ListGroup,
   Card,
   Button,
+  Form,
 } from "react-bootstrap";
 import Rating from "../components/Rating";
 import Wrapper from "../components/Wrapper";
-import { Link, useParams } from "react-router-dom";
-import { getDoc, doc } from "firebase/firestore";
-import fireDB from "../FireConfig";
+// import {Link, Route, useHistory, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { listProductDetails } from "../redux/actions/productActions";
+import Loading from "../components/Loading";
+import Message from "../components/Message";
 
-const Product = () => {
-  const params = useParams();
-  
-  const [data, setProduct] = useState();
+// const Product = ({ history }) => {
+//   const dispatch = useDispatch();
+//   const [qty, setQty] = useState(1);
+//   const productDetails = useSelector((state) => state.productDetails);
+//   const { loading, error, product } = productDetails;
+
+//   const { id } = useParams();
+//   useEffect(() => {
+//     dispatch(listProductDetails(id));
+//   }, [dispatch, id]);
+
+//   const addToCartHandler = () => {
+//     history.push(`/cart/${product.id}?qty=${qty}`);
+//   };
+import { Link,useNavigate, useParams } from "react-router-dom";
+
+const Product = ({history}) => {
+  const dispatch = useDispatch();
+  const [qty, setQty] = useState(1);
+  const productDetails = useSelector((state) => state.productDetails);
+  const { loading, error, product } = productDetails;
+  const navigate = useNavigate();
+  const { id } = useParams();
+
 
   useEffect(() => {
-    getData();
-  }, []);
+    dispatch(listProductDetails(id));
+  }, [dispatch, id]);
 
-  async function getData() {
-   try {
-     const productTemp = await getDoc(doc(fireDB, "products", params.id));
-     setProduct(productTemp.data());
-   } catch (error) {
-    console.log(error);
-   }
-  }
-  
-  
-
+  const addToCartHandler = () => {
+    navigate(`/cart/${product.id}?qty=${qty}`);  };
   return (
     <Wrapper>
       <main className="py-3">
@@ -42,32 +56,35 @@ const Product = () => {
           <Link className="btn btn-dark my-3" to="/">
             Back to Home
           </Link>
-          {data ? (
+          {loading ? (
+            <Loading />
+          ) : error ? (
+            <Message variant="danger">{error}</Message>
+          ) : (
             <Row>
-              
-                <Col md={6}>
-                  <Image
-                    src={data.image}
-                    alt={data.name}
-                    fluid
-                    className="hover"
-                  />
-                </Col>
-              
+              <Col md={6}>
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fluid
+                  className="hover"
+                />
+              </Col>
+
               <Col md={3}>
                 <ListGroup variant="flush">
                   <ListGroup.Item>
-                    <h3>{data.name}</h3>
+                    <h3>{product.name}</h3>
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <Rating
-                      value={data.rating}
-                      text={`${data.numReviews} reviews`}
+                      value={product.rating}
+                      text={`${product.numReviews} reviews`}
                     />
                   </ListGroup.Item>
-                  <ListGroup.Item>Price: ${data.price}</ListGroup.Item>
+                  <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
                   <ListGroup.Item>
-                    Description: {data.description}
+                    Description: {product.description}
                   </ListGroup.Item>
                 </ListGroup>
               </Col>
@@ -78,7 +95,7 @@ const Product = () => {
                       <Row>
                         <Col>Price:</Col>
                         <Col>
-                          <strong>${data.price}</strong>
+                          <strong>${product.price}</strong>
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -86,17 +103,42 @@ const Product = () => {
                       <Row>
                         <Col>Status:</Col>
                         <Col>
-                          {data.countInStock > 0 ? "In Stock" : "Out Of Stock"}
+                          {product.countInStock > 0
+                            ? "In Stock"
+                            : "Out Of Stock"}
                         </Col>
                       </Row>
                     </ListGroup.Item>
+                    {product.countInStock > 0 && (
+                      <ListGroup.Item>
+                        <Row>
+                          <Col>Qty</Col>
+                          <Col>
+                            <Form.Control
+                              as="select"
+                              value={qty}
+                              onChange={(e) => setQty(e.target.value)}
+                            >
+                              {[...Array(product.countInStock).keys()].map(
+                                (x) => (
+                                  <option key={x + 1} value={x + 1}>
+                                    {x + 1}
+                                  </option>
+                                )
+                              )}
+                            </Form.Control>
+                          </Col>
+                        </Row>
+                      </ListGroup.Item>
+                    )}
                     <ListGroup.Item>
                       <Button
+                        onClick={addToCartHandler}
                         className="btn btn-dark  wide-button"
                         type="button"
-                        disabled={data.countInStock === 0}
+                        disabled={product.countInStock === 0}
                       >
-                        {data.countInStock > 0
+                        {product.countInStock > 0
                           ? "Add to Cart"
                           : "Out of Stock"}
                       </Button>
@@ -105,14 +147,11 @@ const Product = () => {
                 </Card>
               </Col>
             </Row>
-          ) : (
-            <p>Loading...</p>
           )}
         </Container>
       </main>
     </Wrapper>
   );
-  
 };
 
 export default Product;

@@ -10,7 +10,7 @@ function App() {
           <Route path="/login" exact element={<Login />} />
           <Route path="/register" exact element={<Register />} />
           <Route path="/product/:id" exact element={<Product/>} />
-          <Route path="/cart" exact element={<Cart />} />
+          <Route path="/cart/:id?" exact element={<Cart />} />
           <Route path="*" exact element={<Error />} />
         </Routes>
       </BrowserRouter>
