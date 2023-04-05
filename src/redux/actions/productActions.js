@@ -42,7 +42,7 @@ export const listProductDetails = (id) => async (dispatch) => {
     
     
       const data = { id: docSnap.id, ...docSnap.data() };
-      console.log(data);
+      // console.log(data);
     
     
 

@@ -18,23 +18,9 @@ import { listProductDetails } from "../redux/actions/productActions";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
 
-// const Product = ({ history }) => {
-//   const dispatch = useDispatch();
-//   const [qty, setQty] = useState(1);
-//   const productDetails = useSelector((state) => state.productDetails);
-//   const { loading, error, product } = productDetails;
-
-//   const { id } = useParams();
-//   useEffect(() => {
-//     dispatch(listProductDetails(id));
-//   }, [dispatch, id]);
-
-//   const addToCartHandler = () => {
-//     history.push(`/cart/${product.id}?qty=${qty}`);
-//   };
 import { Link,useNavigate, useParams } from "react-router-dom";
 
-const Product = ({history}) => {
+const Product = () => {
   const dispatch = useDispatch();
   const [qty, setQty] = useState(1);
   const productDetails = useSelector((state) => state.productDetails);
