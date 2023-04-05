@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Row,
@@ -15,15 +15,16 @@ import Message from "../components/Message";
 import { addToCart, removeFromCart } from "../redux/actions/cartAction";
 import Wrapper from "../components/Wrapper";
 const Cart = () => {
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const dispatch = useDispatch();
+ 
   const location = useLocation();
+  const dispatch = useDispatch();
+  const { id } = useParams();
   const qty = new URLSearchParams(location.search).get("qty") || 1;
   const cart = useSelector((state) => state.cart);
+  
 
   const { cartItems } = cart;
-  //console.log(cartItems);
+  console.log(cartItems.qty);
 
   useEffect(() => {
     if (id) {
@@ -76,7 +77,7 @@ const Cart = () => {
                             value={item.qty}
                             onChange={(e) =>
                               dispatch(
-                                addToCart(item.product, Number(e.target.value))
+                                addToCart(item.id, Number(e.target.value))
                               )
                             }
                           >

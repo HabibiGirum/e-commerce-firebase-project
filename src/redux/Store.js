@@ -13,16 +13,16 @@ const reducer = combineReducers({
 })
 
 const cartItemsFromStorage = localStorage.getItem("cartItems")
-  ? JSON.parse(localStorage.getItem("cartItems"))
+  ? JSON.parse(localStorage.getItem('cartItems'))
   : [];
-const initialState = { 
-  cart: {
-    cartItems: cartItemsFromStorage,
-    // shippingAddress: shippingAddressFromStorage,
-  },
-
-  cartItems: JSON.parse(localStorage.getItem('cartItems')) || []
-}
+  const initialState = { 
+    cart: {
+      //cartItems:cartItemsFromStorage
+      cartItems: Array.isArray(cartItemsFromStorage) ? cartItemsFromStorage : [],
+      // shippingAddress: shippingAddressFromStorage,
+    },
+    cartItems: JSON.parse(localStorage.getItem('cartItems')) || []
+  }
 const store = createStore(
   reducer,
   initialState,

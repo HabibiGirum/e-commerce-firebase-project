@@ -3,12 +3,12 @@ import fireDB from "../../FireConfig";
 import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "../constants/cartConstants";
 
 export const addToCart = (id, qty) => async (dispatch, getState) => {
-  
+
   const { docs } = await getDocs(collection(fireDB, "products"));
   const data = docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   console.log(data);
   const product = data.find((p) => p.id === id);
-  
+
   if (product) {
     dispatch({
       type: CART_ADD_ITEM,
