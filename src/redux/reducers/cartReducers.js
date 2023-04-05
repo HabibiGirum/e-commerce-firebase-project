@@ -22,7 +22,7 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
       return {
         ...state,
         cartItems: state.cartItems.filter(
-          (_, index) => index !== action.payload
+          (item, id) => id !== action.payload
         ),
       };
 

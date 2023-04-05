@@ -20,6 +20,8 @@ const initialState = {
     cartItems: cartItemsFromStorage,
     // shippingAddress: shippingAddressFromStorage,
   },
+
+  cartItems: JSON.parse(localStorage.getItem('cartItems')) || []
 }
 const store = createStore(
   reducer,

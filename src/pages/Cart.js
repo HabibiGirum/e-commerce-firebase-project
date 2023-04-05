@@ -32,15 +32,14 @@ const Cart = () => {
   }, [dispatch, id, qty]);
 
   const removeFromCartHandler = (id) => {
-    const index = cartItems.findIndex((item) => item.product === id);
-    if (index !== -1) {
-      dispatch(removeFromCart(index));
-    }
+    const index = cartItems.findIndex((item) => item.id === id);
+
+    dispatch(removeFromCart(index));
   };
 
   return (
     <Wrapper>
-      <main className="py-3">
+      <main className="py-3 ">
         <Container>
           <Row>
             <Col md={8}>
@@ -63,7 +62,10 @@ const Cart = () => {
                           />
                         </Col>
                         <Col md={3}>
-                          <Link to={`/product/${item.product}`}>
+                          <Link
+                            to={`/product/${item.id}`}
+                            className="black-link text-decoration-none"
+                          >
                             {item.name}
                           </Link>
                         </Col>
@@ -89,7 +91,7 @@ const Cart = () => {
                           <Button
                             type="button"
                             variant="light"
-                            onClick={() => removeFromCartHandler(item.product)}
+                            onClick={() => removeFromCartHandler(item.id)}
                           >
                             <i className="fas fa-trash"></i>
                           </Button>

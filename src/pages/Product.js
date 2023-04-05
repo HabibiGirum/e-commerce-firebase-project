@@ -59,7 +59,7 @@ const Product = () => {
 
               <Col md={3}>
                 <ListGroup variant="flush">
-                  <ListGroup.Item>
+                  <ListGroup.Item >
                     <h3>{product.name}</h3>
                   </ListGroup.Item>
                   <ListGroup.Item>
