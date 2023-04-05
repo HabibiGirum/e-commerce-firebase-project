@@ -26,11 +26,11 @@ const Home = (props) => {
       ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : (
-        <Row>
+        <Row className="py-2">
           {products.map((product,index) => (
-            <Col key={product.id ||index} sm={12} md={6} xl={3}>
+            <Col key={product.id ||index} sm={12} md={6} xl={3} className='my-2'>
               <Product product={product} />
-              <Product history={props.history} />
+             
 
             </Col>
           ))}

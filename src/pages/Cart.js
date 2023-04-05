@@ -32,8 +32,12 @@ const Cart = () => {
   }, [dispatch, id, qty]);
 
   const removeFromCartHandler = (id) => {
-    dispatch(removeFromCart(id));
+    const index = cartItems.findIndex((item) => item.product === id);
+    if (index !== -1) {
+      dispatch(removeFromCart(index));
+    }
   };
+
   return (
     <Wrapper>
       <main className="py-3">

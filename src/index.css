@@ -1,9 +1,10 @@
 main {
     min-height: 80vh;
 }
-/* .wide-button {
-    width: 100%;
-  } */
+.black-link {
+  color: black;
+  
+}
   .product-image:hover {
     filter: brightness(80%);/* Change the opacity of the image */
     cursor: pointer; /* Change the cursor to a pointer on hover */
