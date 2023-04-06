@@ -53,7 +53,7 @@ const Login = () => {
     <Wrapper>
       <Row className="justify-content-center">
         <Col md={4}>
-          <Card className="my-4 ">
+          <Card className="my-4 my-card">
             <Form onSubmit={submitHandler} className="p-1">
               <h2 className="mb-2 text-center">Login</h2>
               {loading ? showAlert && show && <p>Loading...</p> : ""}

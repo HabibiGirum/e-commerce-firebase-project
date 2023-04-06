@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../redux/actions/userActions";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import Wrapper from "../components/Wrapper";
 const RegistrationForm = () => {
   const [email, setEmail] = useState("");
@@ -38,6 +38,7 @@ const RegistrationForm = () => {
               ></lottie-player>
             </Col>
             <Col lg={5}>
+              <Card className='my-5 my-card'>
               <Form onSubmit={handleSubmit} className="p-5">
                 <h2 className="mb-4 text-center">Register</h2>
 
@@ -80,7 +81,8 @@ const RegistrationForm = () => {
                 <Button type="submit" variant="primary" className="mt-4 btn btn-dark" block>
                   Register
                 </Button>
-              </Form>
+                </Form>
+                </Card>
             </Col>
           </Row>
         </Col>
