@@ -1,67 +1,125 @@
-import React from "react";
-import { Container, Form, Button, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import Loading from "../components/Loading";
-import Message from "../components/Message";
-import FormContainer from "../components/FormContainer";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  login,
+  loginWithFacebook,
+  loginWithGoogle,
+} from "../redux/actions/userActions";
+import {Link} from 'react-router-dom'
+import { Image, Form, Button, Alert, Card, Col, Row } from "react-bootstrap";
 import Wrapper from "../components/Wrapper";
+
 const Login = () => {
-  const submitHandler = () => {
-    return null;
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+
+  const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+  const { loading, error } = userLogin;
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(login(email, password));
   };
+  useEffect(() => {
+    if (error || loading || userLogin) {
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000);
+    }
+  }, [error, userLogin, loading]);
+  const handleGoogleLogin = () => {
+    dispatch(loginWithGoogle());
+  };
+
+  const handleFacebookLogin = () => {
+    dispatch(loginWithFacebook());
+  };
+
   return (
     <Wrapper>
-      <main className="py-3">
-        <Container>
-          <FormContainer>
-            <Row>
-              <Col>
-                <h1>Sign In</h1>
-                <Form onSubmit={submitHandler}>
-                  <Form.Group controlId="email">
-                    <Form.Label>Email Address</Form.Label>
-                    <Form.Control
-                      type="email"
-                      placeholder="email@gmail.com"
-                    ></Form.Control>
-                  </Form.Group>
-                  <Form.Group controlId="password">
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder="password"
-                    ></Form.Control>
-                  </Form.Group>
-                  <Button
-                    type="submit"
-                    className="btn btn-dark m-2"
-                    variant="primary"
-                  >
-                    Sign In
-                  </Button>
-                </Form>
-                <Row className="py-3">
-                  <Col>
-                    New Customer?{" "}
-                    <Link to="/register" className="black-link">
-                      Register
-                    </Link>
-                  </Col>
-                </Row>
-              </Col>
-              <Col>
-                <lottie-player
-                  src="https://assets6.lottiefiles.com/packages/lf20_hu9cd9.json"
-                  background="transparent"
-                  speed="1"
-                  loop
-                  autoplay
-                ></lottie-player>
-              </Col>
-            </Row>
-          </FormContainer>
-        </Container>
-      </main>
+      <Row className="justify-content-center">
+        <Col md={4}>
+          <Card className="my-4 ">
+            <Form onSubmit={submitHandler} className="p-1">
+              <h2 className="mb-2 text-center">Login</h2>
+              <Alert>
+                {loading ? showAlert && <p>Loading...</p> : ""}
+                {error
+                  ? showAlert && (
+                      <p className="text-danger">
+                        login fail check either password or email
+                      </p>
+                    )
+                  : ""}
+                {userLogin
+                  ? showAlert && (
+                      <p className="text-success">Login successful!</p>
+                    )
+                  : ""}
+              </Alert>
+              <Form.Group controlId="email">
+                <Form.Label>Email Address</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="Enter email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Form.Group>
+
+              <Form.Group controlId="password">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Form.Group>
+
+              <Button
+                type="submit"
+                variant="primary"
+                disabled={loading}
+                className="my-2 btn btn-dark"
+              >
+                {loading ? "Loading..." : "Login"}
+              </Button>
+
+              <h4>Or sign up with</h4>
+              <Button
+                onClick={handleGoogleLogin}
+                className="my-1 login-with-google  btn btn-dark"
+              >
+                <Image
+                  src="https://53.fs1.hubspotusercontent-na1.net/hub/53/hubfs/image8-2.jpg?width=595&height=400&name=image8-2.jpg"
+                  alt="Google logo"
+                ></Image>
+                <span>Login with Google</span>
+              </Button>
+              <Button
+                onClick={handleFacebookLogin}
+                className=" login-with-facebook "
+              ><Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Facebook_icon.svg/32px-Facebook_icon.svg.png" alt="Facebook"></Image>
+                <span>login with facebook</span>
+              </Button>
+              If you have not an account?
+              <Link to='/register'>Register</Link>
+            </Form>
+          </Card>
+        </Col>
+
+        <Col md={5}>
+          <lottie-player
+            src="https://assets5.lottiefiles.com/packages/lf20_hu9cd9.json"
+            background="transparent"
+            speed="1"
+            loop
+            autoplay
+          ></lottie-player>
+        </Col>
+      </Row>
     </Wrapper>
   );
 };
