@@ -1,3 +1,4 @@
+
 import { CLEAR_ALERT, CLEAR_VALUES } from '../constants/alert';
     export const clearValues = ()=> async(dispatch) => {
         dispatch({ type: CLEAR_VALUES });
@@ -10,4 +11,3 @@ import { CLEAR_ALERT, CLEAR_VALUES } from '../constants/alert';
           });
         }, 3000);
       };
-  

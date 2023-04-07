@@ -24,6 +24,9 @@ const initialState = {
   user: null,
   loading: false,
   error: null,
+  showAlert: false,
+  alertType: '',
+  alertText:''
 };
 
 export const userLoginReducer = (state = initialState, action) => {
@@ -40,13 +43,18 @@ export const userLoginReducer = (state = initialState, action) => {
         userLogin: action.payload,
         loading: false,
         error: null,
+        showAlert: true,
+      alertType: "success",
+      alertText: action.payload.alertText,
       };
     case USER_LOGIN_FAIL:
       return {
         ...state,
         userLogin: null,
         loading: false,
-        error: action.payload,
+        showAlert: true,
+      alertType: "success",
+      alertText: action.payload.alertText,
       };
     default:
       return state;

@@ -69,7 +69,7 @@ const Login = () => {
                 ? showAlert &&
                   show && <p className="text-success">Login successful!</p>
                 : ""}
-              
+
               <Form.Group controlId="email">
                 <Form.Label>Email Address</Form.Label>
                 <Form.Control
@@ -117,7 +117,7 @@ const Login = () => {
                 ></Image>
                 <span> login with facebook </span>
               </Button>
-             <h5> If you have not an account?</h5>
+              <h5> If you have not an account?</h5>
               <Link to="/register">Register</Link>
             </Form>
           </Card>

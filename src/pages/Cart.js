@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,18 +10,25 @@ import {
   Button,
   Card,
   Container,
+  Modal,
 } from "react-bootstrap";
 import Message from "../components/Message";
 import { addToCart, removeFromCart } from "../redux/actions/cartAction";
 import Wrapper from "../components/Wrapper";
-const Cart = ({ history }) => {
+import { addOrder } from "../redux/actions/orderAction";
+const Cart = ({ props }) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { id } = useParams();
   const navigate = useNavigate();
   const qty = new URLSearchParams(location.search).get("qty") || 1;
   const cart = useSelector((state) => state.cart);
-
+  const user = useSelector((state)=>state.userLogin)
+  const [show, setShow] = useState(false);
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const { userInfo } = user;
   const { cartItems } = cart;
   console.log(cartItems.qty);
 
@@ -37,10 +44,22 @@ const Cart = ({ history }) => {
     dispatch(removeFromCart(index));
   };
 
-  const checkoutHandler = () => {
-    navigate("/login?redirect = shipping");
-  };
-
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const orderHandler = () => {
+    const order = {
+      name,
+      address,
+      phoneNumber,
+      cartItems,
+      userInfo
+      
+    }
+    console.log(order)
+    dispatch(addOrder(order));
+    
+    handleClose()
+}
   return (
     <Wrapper>
       <main className="py-3 ">
@@ -128,10 +147,67 @@ const Cart = ({ history }) => {
                       type="button"
                       className="btn btn-dark  wide-button"
                       disabled={cartItems.length === 0}
-                      onClick={checkoutHandler}
+                      onClick={handleShow}
                     >
                       Proceed To Checkout
                     </Button>
+
+                    <Modal
+                      show={show}
+                      onHide={handleClose}
+                      {...props}
+                      size="md"
+                      aria-labelledby="contained-modal-title-vcenter"
+                      centered
+                    >
+                      <Modal.Header closeButton>
+                        <Modal.Title>Modal heading</Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                        <Form>
+                          <Form.Group>
+                            <Form.Label>name:</Form.Label>
+                            <Form.Control
+                              type="name"
+                              value={name}
+                              onChange={(e) => setName(e.target.value)}
+                              required
+                            />
+                          </Form.Group>
+
+                          <Form.Group controlId="exampleForm.ControlTextarea1">
+                            <Form.Label>Address:</Form.Label>
+                            <Form.Control
+                              as="textarea"
+                              rows={3}
+                              type="address"
+                              value={address}
+                              onChange={(e) => setAddress(e.target.value)}
+                              required
+                            />
+                          </Form.Group>
+
+                          <Form.Group>
+                            <Form.Label>Phone Number:</Form.Label>
+                            <Form.Control
+                              placeholder='phone number'
+                              type="number"
+                              value={phoneNumber}
+                              onChange={(e) => setPhoneNumber(e.target.value)}
+                              required
+                            />
+                          </Form.Group>
+                        </Form>
+                      </Modal.Body>
+                      <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                          Close
+                        </Button>
+                        <Button  onClick={orderHandler} className='btn btn-dark'>
+                          Order
+                        </Button>
+                      </Modal.Footer>
+                    </Modal>
                   </ListGroup.Item>
                 </ListGroup>
               </Card>

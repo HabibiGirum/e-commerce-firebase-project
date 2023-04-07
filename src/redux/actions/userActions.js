@@ -15,7 +15,7 @@ import {
   USER_LOGIN_SUCCESS,
   USER_LOGOUT,
 } from "../constants/userConstants";
-import { clearAlert, clearValues } from "./alart";
+import { clearAlert, clearValues } from "./alert";
 import { CLEAR_ALERT } from "../constants/alert";
 
 export const register = (email, password) => async (dispatch) => {
