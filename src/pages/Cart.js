@@ -23,12 +23,12 @@ const Cart = ({ props }) => {
   const navigate = useNavigate();
   const qty = new URLSearchParams(location.search).get("qty") || 1;
   const cart = useSelector((state) => state.cart);
-  const user = useSelector((state)=>state.userLogin)
+  const {user} = useSelector((state)=>state.userLogin)
   const [show, setShow] = useState(false);
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const { userInfo } = user;
+  // const { user } = user;
   const { cartItems } = cart;
   console.log(cartItems.qty);
 
@@ -52,7 +52,7 @@ const Cart = ({ props }) => {
       address,
       phoneNumber,
       cartItems,
-      userInfo
+      user,
       
     }
     console.log(order)

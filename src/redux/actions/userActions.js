@@ -55,11 +55,15 @@ export const login = (email, password) => async (dispatch) => {
       password
     );
 
-    // Dispatch success action with user data
+    localStorage.setItem('userInfo', JSON.stringify(userCredential))
+    const link =window.location.href='/Home'
     dispatch({
       type: USER_LOGIN_SUCCESS,
       payload: userCredential.userLogin,
+      link:link
     });
+    console.log(localStorage.getItem('userInfo'));
+
   } catch (error) {
     // Dispatch failure action with error message
     dispatch({
@@ -79,10 +83,14 @@ export const loginWithGoogle = () => async (dispatch) => {
       type: USER_LOGIN_SUCCESS,
       payload: user,
     });
+
+    localStorage.setItem('userInfo', JSON.stringify(user))
+
   } catch (error) {
     dispatch({
       type: USER_LOGIN_FAIL,
       payload: error.message,
+      
     });
   }
 };

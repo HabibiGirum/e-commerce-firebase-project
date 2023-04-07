@@ -12,35 +12,36 @@ import Wrapper from "../components/Wrapper";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showAlert, setShowAlert] = useState(false);
-
+  const [loginSuccess, setLoginSuccess] = useState(false); // added state variable
   const dispatch = useDispatch();
+  const [showAlert, setShowAlert] = useState(false);
   const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error } = userLogin;
+  const { loading, error, success } = userLogin;
 
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(login(email, password));
+    dispatch(login(email, password)).then((result) => {
+      if (result) {
+        setLoginSuccess(true); // set state variable to true on successful login
+      }
+    });
   };
-  const show = () => {
-    if (true) {
-      return <Alert />;
-    } else {
-      return;
-    }
-  };
+
   useEffect(() => {
-    if (true) {
-      show(true);
-      setTimeout(() => show(false), 3000);
-    }
-  });
-  useEffect(() => {
-    if (error || loading || userLogin) {
+    if (error) {
       setShowAlert(true);
       setTimeout(() => setShowAlert(false), 3000);
     }
-  }, [error, userLogin, loading]);
+  }, [error]);
+
+  useEffect(() => {
+    if (success) {
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000);
+    }
+  }, [success]);
+
   const handleGoogleLogin = () => {
     dispatch(loginWithGoogle());
   };
@@ -56,20 +57,9 @@ const Login = () => {
           <Card className="my-4 my-card">
             <Form onSubmit={submitHandler} className="p-1">
               <h2 className="mb-2 text-center">Login</h2>
-              {loading ? showAlert && show && <p>Loading...</p> : ""}
-              {error
-                ? showAlert &&
-                  show && (
-                    <p className="text-danger">
-                      login fail check either password or email
-                    </p>
-                  )
-                : ""}
-              {userLogin
-                ? showAlert &&
-                  show && <p className="text-success">Login successful!</p>
-                : ""}
-
+              {showAlert && <Alert variant="danger">{error}</Alert>}
+              
+              {/* added alert message */}
               <Form.Group controlId="email">
                 <Form.Label>Email Address</Form.Label>
                 <Form.Control

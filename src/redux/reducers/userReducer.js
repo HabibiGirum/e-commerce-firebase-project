@@ -19,15 +19,19 @@ export const userRegisterReducer = (state = {}, action) => {
       return state;
   }
 };
-
 const initialState = {
+  cart: {
+    cartItems: []
+  },
+  userLogin: {
+    userInfo: null
+  },
   user: null,
   loading: false,
   error: null,
-  showAlert: false,
-  alertType: '',
-  alertText:''
-};
+  success:''
+}
+
 
 export const userLoginReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -35,26 +39,23 @@ export const userLoginReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: true,
-        error: null,
+        
       };
     case USER_LOGIN_SUCCESS:
       return {
         ...state,
         userLogin: action.payload,
         loading: false,
+        success:"Login successful!...",
         error: null,
-        showAlert: true,
-      alertType: "success",
-      alertText: action.payload.alertText,
+        
       };
     case USER_LOGIN_FAIL:
       return {
         ...state,
         userLogin: null,
         loading: false,
-        showAlert: true,
-      alertType: "success",
-      alertText: action.payload.alertText,
+        error: action.payload,
       };
     default:
       return state;

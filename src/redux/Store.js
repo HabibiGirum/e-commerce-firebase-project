@@ -17,13 +17,15 @@ const rootReducer = combineReducers({
 
 })
 
-const cartItemsFromStorage = localStorage.getItem("cartItems")
+const {cartItemsFromStorage} = localStorage.getItem("cartItems")
   ? JSON.parse(localStorage.getItem('cartItems'))
   : [];
 
-  // const userInfoFromStorage = localStorage.getItem('userInfo')
-  // ? JSON.parse(localStorage.getItem('userInfo'))
-  // : null
+  const {userInfoFromStorage}=localStorage.getItem('userInfo')? JSON.parse(localStorage.getItem('userInfo')):[]
+  
+
+
+  console.log(localStorage.getItem('userInfo'));
   
   const initialState = { 
     cart: {
@@ -34,7 +36,7 @@ const cartItemsFromStorage = localStorage.getItem("cartItems")
     
    
     cartItems: JSON.parse(localStorage.getItem('cartItems')) || [],
-    // userLogin: { userInfo: userInfoFromStorage },
+    userLogin: { userInfo: userInfoFromStorage },
   
   }
 const store = createStore(

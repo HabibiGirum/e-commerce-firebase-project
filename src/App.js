@@ -6,8 +6,8 @@ function App() {
       {/* // this is router */}
       <BrowserRouter>
         <Routes>
-          <Route path="/" exact element={<Home />} />
-          <Route path="/login" exact element={<Login />} />
+          <Route path="/" exact element={<Login  />} />
+          <Route path="/home" exact element={<Home/>} />
           <Route path="/register" exact element={<Register />} />
           <Route path="/product/:id" exact element={<Product/>} />
           <Route path="/cart/:id?" exact element={<Cart />} />
