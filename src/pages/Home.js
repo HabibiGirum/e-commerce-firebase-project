@@ -8,6 +8,7 @@ import Wrapper from "../components/Wrapper";
 import { listProducts } from "../redux/actions/productActions";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
+import ProductCarousel from "../components/ProductCarousel";
 const Home = (props) => {
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.productList);
@@ -19,6 +20,7 @@ const Home = (props) => {
  
   return (
     <Wrapper>
+      <ProductCarousel />
       <h3>Latest Products</h3>
 
       {loading ? (

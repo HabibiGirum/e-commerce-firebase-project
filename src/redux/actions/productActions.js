@@ -7,6 +7,9 @@ import {
   PRODUCT_LIST_ERROR,
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
+  PRODUCT_TOP_FAIL,
+  PRODUCT_TOP_REQUEST,
+  PRODUCT_TOP_SUCCESS,
 } from "../constants/productConstants";
 
 export const listProducts = () => async (dispatch) => {
@@ -60,3 +63,27 @@ export const listProductDetails = (id) => async (dispatch) => {
     });
   }
 };
+
+export const listTopProducts = () => async (dispatch) => {
+  try {
+    dispatch({ type: PRODUCT_TOP_REQUEST })
+
+    const { docs } = await getDocs(collection(fireDB, "products"));
+
+    const data = docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+    dispatch({
+      type: PRODUCT_TOP_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_TOP_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+

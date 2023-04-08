@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  login,
-  loginWithFacebook,
-  loginWithGoogle,
-} from "../redux/actions/userActions";
+import { login, loginWithGoogle } from "../redux/actions/userActions";
 import { Link } from "react-router-dom";
 import { Image, Form, Button, Alert, Card, Col, Row } from "react-bootstrap";
 import Wrapper from "../components/Wrapper";
@@ -12,7 +8,6 @@ import Wrapper from "../components/Wrapper";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loginSuccess, setLoginSuccess] = useState(false); // added state variable
   const dispatch = useDispatch();
   const [showAlert, setShowAlert] = useState(false);
   const userLogin = useSelector((state) => state.userLogin);
@@ -21,12 +16,18 @@ const Login = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(login(email, password));
-    dispatch(login(email, password)).then((result) => {
-      if (result) {
-        setLoginSuccess(true); // set state variable to true on successful login
-      }
-    });
   };
+  const [isUserInfoLoaded, setIsUserInfoLoaded] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
+
+  useEffect(() => {
+    const userInfoFromStorage = localStorage.getItem("userInfo");
+    if (userInfoFromStorage) {
+      const parsedUserInfo = JSON.parse(userInfoFromStorage);
+      setUserInfo(parsedUserInfo);
+    }
+    setIsUserInfoLoaded(true);
+  }, []);
 
   useEffect(() => {
     if (error) {
@@ -35,6 +36,7 @@ const Login = () => {
     }
   }, [error]);
 
+
   useEffect(() => {
     if (success) {
       setShowAlert(true);
@@ -42,12 +44,27 @@ const Login = () => {
     }
   }, [success]);
 
+
+
+  useEffect(() => {
+    if (isUserInfoLoaded && userInfo) {
+      setTimeout(() => {
+        window.location.reload();
+      },3000);
+    }
+  }, [isUserInfoLoaded, userInfo]);
+
+  useEffect(() => {
+    if (isUserInfoLoaded && userInfo) {
+      console.log(userInfo); // log the userInfo variable to the console
+      setTimeout(() => {
+        window.location.href = "/home";
+      },3000);
+    }
+  }, [isUserInfoLoaded, userInfo]);
+
   const handleGoogleLogin = () => {
     dispatch(loginWithGoogle());
-  };
-
-  const handleFacebookLogin = () => {
-    dispatch(loginWithFacebook());
   };
 
   return (
@@ -57,8 +74,13 @@ const Login = () => {
           <Card className="my-4 my-card">
             <Form onSubmit={submitHandler} className="p-1">
               <h2 className="mb-2 text-center">Login</h2>
-              {showAlert && <Alert variant="danger">{error}</Alert>}
-              
+              {showAlert &&
+                (error ? (
+                  <Alert variant="danger">{error}</Alert>
+                ) : (
+                  <Alert variant="success">{success}</Alert>
+                ))}
+
               {/* added alert message */}
               <Form.Group controlId="email">
                 <Form.Label>Email Address</Form.Label>
@@ -86,7 +108,9 @@ const Login = () => {
               >
                 {loading ? "Loading..." : "Login"}
               </Button>
-              <h4>Or sign up with</h4>
+              <hr />
+              <span>Or sign up with</span>
+              <hr />
               <Button
                 onClick={handleGoogleLogin}
                 className="my-1 login-with-google  btn btn-dark"
@@ -97,18 +121,11 @@ const Login = () => {
                 ></Image>
                 <span> Login with Google</span>
               </Button>
-              <Button
-                onClick={handleFacebookLogin}
-                className=" login-with-facebook "
-              >
-                <Image
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Facebook_icon.svg/32px-Facebook_icon.svg.png"
-                  alt="Facebook"
-                ></Image>
-                <span> login with facebook </span>
-              </Button>
-              <h5> If you have not an account?</h5>
-              <Link to="/register">Register</Link>
+
+              <h5>
+                {" "}
+                If you have not an account? <Link to="/register">Register</Link>
+              </h5>
             </Form>
           </Card>
         </Col>

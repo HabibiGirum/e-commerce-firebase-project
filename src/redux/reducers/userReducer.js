@@ -6,31 +6,35 @@ import {
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
 } from "../constants/userConstants";
+const initialState = {
+  user: null,
+  loading: false,
+  error: null,
+  success: '',
+  
+}
 
-export const userRegisterReducer = (state = {}, action) => {
+
+
+
+
+
+
+
+export const userRegisterReducer = (state = initialState, action) => {
   switch (action.type) {
     case userConstants.USER_REGISTER_REQUEST:
       return { loading: true };
     case userConstants.USER_REGISTER_SUCCESS:
-      return { loading: false, userRegister: action.payload };
+      return { loading: false, userRegister: action.payload,success:"Registration Successful! " };
     case userConstants.USER_REGISTER_FAILURE:
       return { loading: false, error: action.payload };
     default:
       return state;
   }
 };
-const initialState = {
-  cart: {
-    cartItems: []
-  },
-  userLogin: {
-    userInfo: null
-  },
-  user: null,
-  loading: false,
-  error: null,
-  success:''
-}
+
+
 
 
 export const userLoginReducer = (state = initialState, action) => {
@@ -41,6 +45,7 @@ export const userLoginReducer = (state = initialState, action) => {
         loading: true,
         
       };
+      
     case USER_LOGIN_SUCCESS:
       return {
         ...state,
@@ -61,3 +66,5 @@ export const userLoginReducer = (state = initialState, action) => {
       return state;
   }
 };
+
+

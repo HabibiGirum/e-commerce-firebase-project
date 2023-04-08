@@ -18,7 +18,7 @@ import { listProductDetails } from "../redux/actions/productActions";
 import Loading from "../components/Loading";
 import Message from "../components/Message";
 
-import { Link,useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const Product = () => {
   const dispatch = useDispatch();
@@ -28,18 +28,18 @@ const Product = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-
   useEffect(() => {
     dispatch(listProductDetails(id));
   }, [dispatch, id]);
 
   const addToCartHandler = () => {
-    navigate(`/cart/${product.id}?qty=${qty}`);  };
+    navigate(`/cart/${product.id}?qty=${qty}`);
+  };
   return (
     <Wrapper>
       <main className="py-3">
         <Container>
-          <Link className="btn btn-dark my-3" to="/">
+          <Link className="btn btn-dark my-3" to="/home">
             Back to Home
           </Link>
           {loading ? (
@@ -59,7 +59,7 @@ const Product = () => {
 
               <Col md={3}>
                 <ListGroup variant="flush">
-                  <ListGroup.Item >
+                  <ListGroup.Item>
                     <h3>{product.name}</h3>
                   </ListGroup.Item>
                   <ListGroup.Item>

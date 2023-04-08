@@ -1,7 +1,6 @@
 import {
   auth,
   googleAuthProvider,
-  facebookAuthProvider,
 } from "../../FireConfig";
 import {
   createUserWithEmailAndPassword,
@@ -15,7 +14,6 @@ import {
   USER_LOGIN_SUCCESS,
   USER_LOGOUT,
 } from "../constants/userConstants";
-import { clearAlert, clearValues } from "./alert";
 import { CLEAR_ALERT } from "../constants/alert";
 
 export const register = (email, password) => async (dispatch) => {
@@ -41,8 +39,7 @@ export const register = (email, password) => async (dispatch) => {
       payload: error.message,
     });
   }
-  clearValues();
-  clearAlert()
+  localStorage.setItem('userRegister', JSON.stringify(userConstants))
 };
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -56,11 +53,11 @@ export const login = (email, password) => async (dispatch) => {
     );
 
     localStorage.setItem('userInfo', JSON.stringify(userCredential))
-    const link =window.location.href='/Home'
+    
     dispatch({
       type: USER_LOGIN_SUCCESS,
       payload: userCredential.userLogin,
-      link:link
+      
     });
     console.log(localStorage.getItem('userInfo'));
 
@@ -78,10 +75,12 @@ export const loginWithGoogle = () => async (dispatch) => {
     dispatch({
       type: USER_LOGIN_REQUEST,
     });
-    const { user } = await signInWithPopup(auth,googleAuthProvider);
+    const { user } = await signInWithPopup(auth, googleAuthProvider);
+   
     dispatch({
       type: USER_LOGIN_SUCCESS,
       payload: user,
+      
     });
 
     localStorage.setItem('userInfo', JSON.stringify(user))
@@ -94,31 +93,13 @@ export const loginWithGoogle = () => async (dispatch) => {
     });
   }
 };
-
-export const loginWithFacebook = () => async (dispatch) => {
-  try {
-    dispatch({
-      type: USER_LOGIN_REQUEST,
-    });
-
-    const { user } = await signInWithPopup(auth,facebookAuthProvider);
-
-    dispatch({
-      type: USER_LOGIN_SUCCESS,
-      payload: user,
-    });
-  } catch (error) {
-    dispatch({
-      type: USER_LOGIN_FAIL,
-      payload: error.message,
-    });
-  }
-}
+// 
 
 export const logout = () => async (dispatch) => {
   await auth.signOut();
-
+  const link =window.location.href='/'
   dispatch({
     type: USER_LOGOUT,
+    link:link
   });
 };
