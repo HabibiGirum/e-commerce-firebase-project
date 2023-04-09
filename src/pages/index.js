@@ -4,6 +4,8 @@ import Error from './Error'
 import Login from './Login'
 import Product from './Product'
 import Home from './Home'
+import Admin from './Admin'
+import AddProduct from './AddProduct'
 //import ProtectedRoute from './ProtectedRoute'
 
 export {
@@ -12,5 +14,7 @@ export {
     Error,
     Login,
     Product,
-    Home
+    Home,
+    Admin,
+    AddProduct
 }

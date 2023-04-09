@@ -16,6 +16,7 @@ const RegistrationForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [role,setRole]=useState("")
 
   const dispatch = useDispatch();
   const [showAlert, setShowAlert] = useState(false);
@@ -31,6 +32,7 @@ const RegistrationForm = () => {
     }
 
     dispatch(register(email, password));
+    setTimeout(()=>window.location.reload(),2000)
   };
 
   useEffect(() => {
@@ -60,20 +62,13 @@ const RegistrationForm = () => {
   }, []);
 
 
-  useEffect(() => {
-    if (isUserInfoLoaded && userInfo) {
-      setTimeout(() => {
-        window.location.reload();
-      },3000);
-    }
-  }, [isUserInfoLoaded, userInfo]);
 
   useEffect(() => {
     if (isUserInfoLoaded && userInfo) {
       console.log(userInfo); // log the userInfo variable to the console
       setTimeout(() => {
         window.location.href = "/home";
-      },3000);
+      });
     }
   }, [isUserInfoLoaded, userInfo]);
 
@@ -122,7 +117,7 @@ const RegistrationForm = () => {
                       required
                     />
                   </Form.Group>
-
+                  
                   <Form.Group>
                     <Form.Label>Confirm Password:</Form.Label>
                     <Form.Control

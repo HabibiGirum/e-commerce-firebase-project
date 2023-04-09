@@ -1,35 +1,49 @@
 import {
   auth,
+  
   googleAuthProvider,
 } from "../../FireConfig";
+import fireDB from "../../FireConfig"
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup
 } from "firebase/auth";
+import {addDoc,collection} from  "firebase/firestore";
 import {
   userConstants,
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
-  USER_LOGOUT,
+ 
 } from "../constants/userConstants";
 import { CLEAR_ALERT } from "../constants/alert";
 
-export const register = (email, password) => async (dispatch) => {
+export const register = (email, password,role) => async (dispatch) => {
   try {
     dispatch({ type: userConstants.USER_REGISTER_REQUEST });
 
-    const userCredential = await createUserWithEmailAndPassword(
+    const user = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
 
+    // Add a new document with a generated id.
+const roleData = await addDoc(collection(fireDB, "users"), {
+  name: "Tokyo",
+  country: "Japan"
+});
+
     dispatch({
       type: userConstants.USER_REGISTER_SUCCESS,
-      payload: userCredential.userRegister,
+      payload: {
+        email: user.email,
+        uid: user.uid,
+        role:roleData
+      },
     });
+
     dispatch({
       type:CLEAR_ALERT
     })
@@ -46,17 +60,17 @@ export const login = (email, password) => async (dispatch) => {
     dispatch({ type: USER_LOGIN_REQUEST });
 
     // Call Firebase Authentication API to log in the user
-    const userCredential = await signInWithEmailAndPassword(
+    const user = await signInWithEmailAndPassword(
       auth,
       email,
       password
     );
 
-    localStorage.setItem('userInfo', JSON.stringify(userCredential))
+    localStorage.setItem('userInfo', JSON.stringify(user))
     
     dispatch({
       type: USER_LOGIN_SUCCESS,
-      payload: userCredential.userLogin,
+      payload: user.userLogin,
       
     });
     console.log(localStorage.getItem('userInfo'));
@@ -95,11 +109,5 @@ export const loginWithGoogle = () => async (dispatch) => {
 };
 // 
 
-export const logout = () => async (dispatch) => {
-  await auth.signOut();
-  const link =window.location.href='/'
-  dispatch({
-    type: USER_LOGOUT,
-    link:link
-  });
-};
+
+

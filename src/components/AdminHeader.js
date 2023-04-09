@@ -1,29 +1,27 @@
 import React from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import { Navbar, Nav, Container } from "react-bootstrap";
-const Header = () => {
+const AdminHeader = () => {
   function handleLogout() {
-    // Remove user info from local storage
     localStorage.removeItem("userInfo");
     localStorage.removeItem("cartItems")
 
-    // Perform any other logout actions (e.g. redirect to login page)
-    // ...
+    
   }
 
   return (
     <header>
-      <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
+      <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect className="mx-4">
         <Container className="ml-3">
-          <LinkContainer to="/home">
+          <LinkContainer to="/admin">
             <Navbar.Brand>E-commerce Project with Firebase</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <LinkContainer to="/cart">
+              <LinkContainer to="/admin/createProduct">
                 <Nav.Link>
-                  <i className="fas fa-shopping-cart"></i>Cart
+                <i className="fas fa-plus"></i>Create Product
                 </Nav.Link>
               </LinkContainer>
 
@@ -40,4 +38,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default AdminHeader;

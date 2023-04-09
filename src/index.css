@@ -128,3 +128,22 @@ h2 {
 .error{
   color: red;
 }
+
+.search-input {
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  width: 20px;
+  margin-right: 10px;
+}
+
+.filter-select {
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  width: 20px;
+}
+
+
+
+

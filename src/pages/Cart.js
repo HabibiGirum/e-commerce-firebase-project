@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Row,
@@ -20,10 +20,9 @@ const Cart = ({ props }) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const { id } = useParams();
-  const navigate = useNavigate();
   const qty = new URLSearchParams(location.search).get("qty") || 1;
   const cart = useSelector((state) => state.cart);
-  const {user} = useSelector((state)=>state.userLogin)
+  const { user } = useSelector((state) => state.userLogin);
   const [show, setShow] = useState(false);
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
@@ -53,13 +52,12 @@ const Cart = ({ props }) => {
       phoneNumber,
       cartItems,
       user,
-      
-    }
-    console.log(order)
+    };
+    console.log(order);
     dispatch(addOrder(order));
-    
-    handleClose()
-}
+
+    handleClose();
+  };
   return (
     <Wrapper>
       <main className="py-3 ">
@@ -161,7 +159,7 @@ const Cart = ({ props }) => {
                       centered
                     >
                       <Modal.Header closeButton>
-                        <Modal.Title>Modal heading</Modal.Title>
+                        <Modal.Title>Order form </Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
                         <Form>
@@ -190,7 +188,7 @@ const Cart = ({ props }) => {
                           <Form.Group>
                             <Form.Label>Phone Number:</Form.Label>
                             <Form.Control
-                              placeholder='phone number'
+                              placeholder="phone number"
                               type="number"
                               value={phoneNumber}
                               onChange={(e) => setPhoneNumber(e.target.value)}
@@ -203,7 +201,7 @@ const Cart = ({ props }) => {
                         <Button variant="secondary" onClick={handleClose}>
                           Close
                         </Button>
-                        <Button  onClick={orderHandler} className='btn btn-dark'>
+                        <Button onClick={orderHandler} className="btn btn-dark">
                           Order
                         </Button>
                       </Modal.Footer>

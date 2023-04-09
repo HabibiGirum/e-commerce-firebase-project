@@ -16,6 +16,7 @@ const Login = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(login(email, password));
+    setTimeout(() => window.location.reload(), 2000);
   };
   const [isUserInfoLoaded, setIsUserInfoLoaded] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
@@ -36,7 +37,6 @@ const Login = () => {
     }
   }, [error]);
 
-
   useEffect(() => {
     if (success) {
       setShowAlert(true);
@@ -44,22 +44,11 @@ const Login = () => {
     }
   }, [success]);
 
-
-
   useEffect(() => {
     if (isUserInfoLoaded && userInfo) {
-      setTimeout(() => {
-        window.location.reload();
-      },3000);
-    }
-  }, [isUserInfoLoaded, userInfo]);
-
-  useEffect(() => {
-    if (isUserInfoLoaded && userInfo) {
-      console.log(userInfo); // log the userInfo variable to the console
       setTimeout(() => {
         window.location.href = "/home";
-      },3000);
+      });
     }
   }, [isUserInfoLoaded, userInfo]);
 
