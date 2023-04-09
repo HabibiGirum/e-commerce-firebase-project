@@ -15,6 +15,7 @@ import {
   PRODUCT_TOP_FAIL,
   PRODUCT_TOP_REQUEST,
   PRODUCT_TOP_SUCCESS,
+  PRODUCT_UPDATE_REQUEST,
 } from "../constants/productConstants";
 
 export const productListReducer = (state = { products:[]}, action) => {
@@ -94,6 +95,17 @@ export const productCreateReducer = (state = {}, action) => {
       return {}
     default:
       return state
+  }
+}
+
+export const updateProduct = (product) => async (dispatch) => {
+  try {
+    dispatch({
+      type:PRODUCT_UPDATE_REQUEST
+    })
+   
+  } catch (error) {
+    
   }
 }
 
