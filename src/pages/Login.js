@@ -61,7 +61,7 @@ const Login = () => {
     <>
     <Header />
       <Row className="justify-content-center ">
-        <Col md={3}>
+        <Col md={4}>
           <Card className="my-4 p-3 ">
             <Form onSubmit={submitHandler} >
               <h2 className="mb-2 text-center">Login</h2>
@@ -73,7 +73,7 @@ const Login = () => {
                 ))}
 
               {/* added alert message */}
-              <Form.Group controlId="email" className="col-md-12">
+              <Form.Group controlId="email" className="col-md-9">
                 <Form.Label>Email Address</Form.Label>
                 <Form.Control
                   type="email"
@@ -83,7 +83,7 @@ const Login = () => {
                   
                 />
               </Form.Group>
-              <Form.Group controlId="password" className="col-md-12">
+              <Form.Group controlId="password" className="col-md-9">
                 <Form.Label>Password</Form.Label>
                 <Form.Control
                   type="password"
@@ -96,17 +96,15 @@ const Login = () => {
                 type="submit"
                 variant="primary"
                 disabled={loading}
-                className="my-2 btn btn-dark col-md-12"
+                className="my-2 btn btn-dark col-md-9"
 
               >
                 {loading ? "Loading..." : "Login"}
               </Button>
-              <hr />
-              <span>Or sign up with</span>
-              <hr />
+            
               <Button
                 onClick={handleGoogleLogin}
-                className="my-1 login-with-google  btn btn-dark col-md-12"
+                className="my-1 login-with-google  btn btn-dark col-md-9"
               >
                 <Image
                   src="https://53.fs1.hubspotusercontent-na1.net/hub/53/hubfs/image8-2.jpg?width=595&height=400&name=image8-2.jpg"

@@ -10,14 +10,14 @@ import {
   Card,
   Alert,
 } from "react-bootstrap";
-import Header from "../components/Header"
+import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 const RegistrationForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [role,setRole]=useState("")
+  const [role, setRole] = useState("");
 
   const dispatch = useDispatch();
   const [showAlert, setShowAlert] = useState(false);
@@ -33,7 +33,7 @@ const RegistrationForm = () => {
     }
 
     dispatch(register(email, password));
-    setTimeout(()=>window.location.reload(),2000)
+    setTimeout(() => window.location.reload(), 2000);
   };
 
   useEffect(() => {
@@ -62,8 +62,6 @@ const RegistrationForm = () => {
     setIsUserInfoLoaded(true);
   }, []);
 
-
-
   useEffect(() => {
     if (isUserInfoLoaded && userInfo) {
       console.log(userInfo); // log the userInfo variable to the console
@@ -75,7 +73,7 @@ const RegistrationForm = () => {
 
   return (
     <>
-    <Header />
+      <Header />
       <Container>
         <Col>
           <Row className="justify-content-center">
@@ -88,7 +86,7 @@ const RegistrationForm = () => {
                 autoplay
               ></lottie-player>
             </Col>
-            <Col lg={5}>
+            <Col md={5}>
               <Card className="my-5 my-card">
                 <Form onSubmit={handleSubmit} className="p-5">
                   <h2 className="mb-4 text-center">Register</h2>
@@ -100,7 +98,7 @@ const RegistrationForm = () => {
                       <Alert variant="success">{success}</Alert>
                     ))}
 
-                  <Form.Group>
+                  <Form.Group className="col-md-9">
                     <Form.Label>Email:</Form.Label>
                     <Form.Control
                       type="email"
@@ -110,7 +108,7 @@ const RegistrationForm = () => {
                     />
                   </Form.Group>
 
-                  <Form.Group>
+                  <Form.Group className="col-md-9"> 
                     <Form.Label>Password:</Form.Label>
                     <Form.Control
                       type="password"
@@ -119,8 +117,8 @@ const RegistrationForm = () => {
                       required
                     />
                   </Form.Group>
-                  
-                  <Form.Group>
+
+                  <Form.Group className="col-md-9">
                     <Form.Label>Confirm Password:</Form.Label>
                     <Form.Control
                       type="password"
@@ -133,7 +131,7 @@ const RegistrationForm = () => {
                   <Button
                     type="submit"
                     variant="primary"
-                    className="mt-4 btn btn-dark"
+                    className="mt-4 btn btn-dark col-md-9"
                     block
                   >
                     {loading ? "Loading..." : "Register"}
@@ -148,7 +146,7 @@ const RegistrationForm = () => {
           </Row>
         </Col>
       </Container>
-    <Footer />
+      <Footer />
     </>
   );
 };
