@@ -10,7 +10,8 @@ import {
   Card,
   Alert,
 } from "react-bootstrap";
-import Wrapper from "../components/Wrapper";
+import Header from "../components/Header"
+import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 const RegistrationForm = () => {
   const [email, setEmail] = useState("");
@@ -73,7 +74,8 @@ const RegistrationForm = () => {
   }, [isUserInfoLoaded, userInfo]);
 
   return (
-    <Wrapper>
+    <>
+    <Header />
       <Container>
         <Col>
           <Row className="justify-content-center">
@@ -146,7 +148,8 @@ const RegistrationForm = () => {
           </Row>
         </Col>
       </Container>
-    </Wrapper>
+    <Footer />
+    </>
   );
 };
 

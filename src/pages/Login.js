@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { login, loginWithGoogle } from "../redux/actions/userActions";
 import { Link } from "react-router-dom";
 import { Image, Form, Button, Alert, Card, Col, Row } from "react-bootstrap";
-import Wrapper from "../components/Wrapper";
+import Header from "../components/Header"
+import Footer from "../components/Footer";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -57,11 +58,12 @@ const Login = () => {
   };
 
   return (
-    <Wrapper>
-      <Row className="justify-content-center">
-        <Col md={4}>
-          <Card className="my-4 my-card">
-            <Form onSubmit={submitHandler} className="p-1">
+    <>
+    <Header />
+      <Row className="justify-content-center ">
+        <Col md={3}>
+          <Card className="my-4 p-3 ">
+            <Form onSubmit={submitHandler} >
               <h2 className="mb-2 text-center">Login</h2>
               {showAlert &&
                 (error ? (
@@ -71,16 +73,17 @@ const Login = () => {
                 ))}
 
               {/* added alert message */}
-              <Form.Group controlId="email">
+              <Form.Group controlId="email" className="col-md-12">
                 <Form.Label>Email Address</Form.Label>
                 <Form.Control
                   type="email"
                   placeholder="Enter email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  
                 />
               </Form.Group>
-              <Form.Group controlId="password">
+              <Form.Group controlId="password" className="col-md-12">
                 <Form.Label>Password</Form.Label>
                 <Form.Control
                   type="password"
@@ -93,7 +96,8 @@ const Login = () => {
                 type="submit"
                 variant="primary"
                 disabled={loading}
-                className="my-2 btn btn-dark"
+                className="my-2 btn btn-dark col-md-12"
+
               >
                 {loading ? "Loading..." : "Login"}
               </Button>
@@ -102,7 +106,7 @@ const Login = () => {
               <hr />
               <Button
                 onClick={handleGoogleLogin}
-                className="my-1 login-with-google  btn btn-dark"
+                className="my-1 login-with-google  btn btn-dark col-md-12"
               >
                 <Image
                   src="https://53.fs1.hubspotusercontent-na1.net/hub/53/hubfs/image8-2.jpg?width=595&height=400&name=image8-2.jpg"
@@ -129,7 +133,8 @@ const Login = () => {
           ></lottie-player>
         </Col>
       </Row>
-    </Wrapper>
+    <Footer />
+    </>
   );
 };
 

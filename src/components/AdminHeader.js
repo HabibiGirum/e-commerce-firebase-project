@@ -11,7 +11,7 @@ const AdminHeader = () => {
 
   return (
     <header>
-      <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect className="mx-4">
+      <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container className="ml-3">
           <LinkContainer to="/admin">
             <Navbar.Brand>E-commerce Project with Firebase</Navbar.Brand>

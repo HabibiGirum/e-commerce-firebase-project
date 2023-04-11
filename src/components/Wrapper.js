@@ -6,7 +6,7 @@ import { Container } from 'react-bootstrap';
 const Wrapper = (props) => {
   return (
    
-       <main className='py-3'>
+       <main >
         <Container>
           <Header />
           <div className='container'>
